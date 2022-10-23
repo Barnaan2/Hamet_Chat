@@ -15,7 +15,14 @@
 
   {% endif %}
   <h2> Hello this is TalkToMe  chatting platform </h2>
-<h3> just login 0r create account and talk privately</h3>
+
+<h3> just login or create account and talk privately with the following users</h3>
+<ul>
+{% for user in users %}
+<a href="{% 'chat' user.id %}"> <li>{{user.username}}</li> </a>
+
+{% endfor%}
+</ul>
     
 </body>
 </html>
