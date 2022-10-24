@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>messages</title>
+</head>
+<body>
+    {% for message in messages %}
+   <p>{%if request.user == message.sender %} you: {% else%} {{ message.sender }} {%endif%} {{ message.body }} </p>
+   {% endfor %}
+
+   <form name="message" id= "{{user.id}}" >
+    {% csrf_token %}
+    <input type="text"  id= "body" name="body">
+    <input type="submit" value="send">
+   </form>
+</body>
+<script>
+ 
+document.querySelector('form').addEventListener('submit',(e)=>{
+    e.preventDefault()
+    
+let data = {
+   csrfmiddlewaretoken: document.querySelector('input').value,
+   body : document.getElementById('body').value,
+}
+const user = document.querySelector('form').id
+const add = document.createElement('h2')
+const body = document.querySelector('body')
+const value = body.appendChild(add)
+const url = `/message/${user}/`
+value.innerHTML = `${data.csrfmiddlewaretoken}  and ${data.body} and ${url}`
+
+sender(url,data,value)
+});
+
+
+const sender = (url,data,value) =>{
+  
+ const ajax = new XMLHttpRequest()
+ ajax.onreadystatechange =reqHandler
+ 
+ 
+ function reqHandler(){ 
+    
+    
+        if(ajax.readyState === XMLHttpRequest.DONE){
+       if(ajax.status === 200){
+     
+     value.innerHTML = ajax.responseText
+     const me  = ajax.responseText
+     console.log(me.name)
+     console.log(ajax.responseText)
+       }}
+
+}
+ 
+    ajax.open('POST',url)
+    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`)
+// ajax.open('GET','/ajax/')
+// ajax.send()
+}
+
+</script>
+</html>

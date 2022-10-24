@@ -8,6 +8,14 @@
 </head>
 <body>
     <H1> {{ request.user.username }}, Welcome to Talk to Me</H1>
-    
+    {% for chat in chats %}
+
+  {% if chat.initiator == request.user %}
+   <p> user  {{chat.reactor.username }} </p>
+   {% elif chat.reactor == request.user %}
+   <p> user {{chat.reactor.username }} </p>
+   {% endif %}
+
+    {% endfor %}
 </body>
 </html>
