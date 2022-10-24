@@ -41,11 +41,26 @@ def message(request,q):
     if request.method == "POST":
         #   receiver = User.objects.get( id=request.POST.get('id'))
           Message.objects.create(chat=chat,sender=request.user, receiver=user,body=request.POST.get('body') )
-          name ='{"name":"baran","person":"you"}'
+          username = request.user.username
+          name ='{"name":"me"}'
           return HttpResponse(name) 
   
     context = {'messages':messages,'user':user }
     return render(request,'chat/messages.html',context)  
-# def ajax(request):
-     
-#    return JsonResponse({'name':'barnan'}) 
+
+def ajax(request,q):
+    user = User.objects.get(id=q)
+    chat = {}
+    if user is None:
+         return HttpResponse("user you searching for, does not exist")
+    else:
+        if  Chat.objects.filter(reactor = user).exists() :
+             chat = Chat.objects.filter(reactor = user).first()
+        elif Chat.objects.filter(initiator=user).exists():
+             chat = Chat.objects.filter(initiator = user).first()
+         
+    messages = Message.objects.filter(chat=chat)
+    owner = request.user
+    print(owner)
+    print(user)
+    return JsonResponse({"message":list(messages.values())}) 

@@ -15,9 +15,13 @@
     {% csrf_token %}
     <input type="text"  id= "body" name="body">
     <input type="submit" value="send">
+
    </form>
+
+   <button class="button">  Get value</button>
 </body>
 <script>
+   
  
 document.querySelector('form').addEventListener('submit',(e)=>{
     e.preventDefault()
@@ -34,7 +38,34 @@ const url = `/message/${user}/`
 value.innerHTML = `${data.csrfmiddlewaretoken}  and ${data.body} and ${url}`
 
 sender(url,data,value)
+
 });
+
+document.querySelector('.button').addEventListener('click',()=>{
+    getter()
+});
+
+const getter=() =>{
+        const ajax = new XMLHttpRequest()
+        ajax.onreadystatechange = reqHandler
+        function reqHandler(){
+         if(ajax.readyState == XMLHttpRequest.DONE)
+         {
+            if(ajax.status === 200){
+                const messages  = JSON.parse(ajax.responseText);
+                
+messages.message.map((msg)=>{
+console.log(msg.sender_id)
+console.log(msg.body)
+});
+            }
+         }
+        }
+
+ajax.open('GET','ajax/')
+ajax.send()
+
+    } 
 
 
 const sender = (url,data,value) =>{
@@ -60,8 +91,7 @@ const sender = (url,data,value) =>{
     ajax.open('POST',url);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`);
-// ajax.open('GET','/ajax/')
-// ajax.send()
+
 }
 
 </script>
