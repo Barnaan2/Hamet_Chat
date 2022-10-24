@@ -50,16 +50,16 @@ const sender = (url,data,value) =>{
        if(ajax.status === 200){
      
      value.innerHTML = ajax.responseText
-     const me  = ajax.responseText
-     console.log(me.name)
-     console.log(ajax.responseText)
+     const me  = JSON.parse(ajax.responseText)
+     console.log(me)
+     console.log(typeof(me))
        }}
 
 }
  
-    ajax.open('POST',url)
+    ajax.open('POST',url);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`)
+    ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`);
 // ajax.open('GET','/ajax/')
 // ajax.send()
 }

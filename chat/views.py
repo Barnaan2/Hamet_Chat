@@ -41,11 +41,11 @@ def message(request,q):
     if request.method == "POST":
         #   receiver = User.objects.get( id=request.POST.get('id'))
           Message.objects.create(chat=chat,sender=request.user, receiver=user,body=request.POST.get('body') )
-          me = "mee"
-          return JsonResponse({name:me},status=200) 
+          name ='{"name":"baran","person":"you"}'
+          return HttpResponse(name) 
   
     context = {'messages':messages,'user':user }
     return render(request,'chat/messages.html',context)  
-def ajax(request):
+# def ajax(request):
      
-   return JsonResponse({'name':'barnan'}) 
+#    return JsonResponse({'name':'barnan'}) 
