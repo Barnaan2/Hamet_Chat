@@ -53,9 +53,21 @@ const getter=() =>{
          {
             if(ajax.status === 200){
                 const messages  = JSON.parse(ajax.responseText);
+           
                 
 messages.message.map((msg)=>{
-console.log(msg.sender_id)
+if (msg.sender_id == messages.owner_id){
+    console.log("you")
+}
+else{
+   const yourName =  messages.users.map((user)=>{
+ if (user.id == msg.sender_id){
+    return(user.username)
+ }
+   })
+   console.log(yourName)
+}
+
 console.log(msg.body)
 });
             }

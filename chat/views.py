@@ -18,11 +18,14 @@ def chat(request):
       user = User.objects.get(id=q)
       if user is None:
          return HttpResponse("user you searching for, does not exist")
+      elif user == request.user:
+          return HttpResponse(" error 10000007x you cannot chat with your self dude :)")
       else:
         if Chat.objects.filter(initiator = request.user, reactor = user).exists() or  Chat.objects.filter(reactor = request.user,initiator = user).exists() :
-             return redirect('message' ,request.user.id)
+             return redirect('message' ,user.id)
         else:
           Chat.objects.create(initiator = request.user, reactor =user)
+          return redirect('message' ,user.id)
     context = {'chats': chat}
     return render(request,'chat/your_chat.html',context)
 
@@ -32,16 +35,11 @@ def message(request,q):
     if user is None:
          return HttpResponse("user you searching for, does not exist")
     else:
-        if  Chat.objects.filter(reactor = user).exists() :
-             chat = Chat.objects.filter(reactor = user).first()
-        elif Chat.objects.filter(initiator=user).exists():
-             chat = Chat.objects.filter(initiator = user).first()
-         
+        chat= Chat.objects.filter(initiator = request.user) & Chat.objects.filter(reactor = user) |  Chat.objects.filter(initiator = user) | Chat.objects.filter(reactor = request.user);
+        chat = chat.first()
     messages = Message.objects.filter(chat=chat)
     if request.method == "POST":
-        #   receiver = User.objects.get( id=request.POST.get('id'))
           Message.objects.create(chat=chat,sender=request.user, receiver=user,body=request.POST.get('body') )
-          username = request.user.username
           name ='{"name":"me"}'
           return HttpResponse(name) 
   
@@ -54,13 +52,9 @@ def ajax(request,q):
     if user is None:
          return HttpResponse("user you searching for, does not exist")
     else:
-        if  Chat.objects.filter(reactor = user).exists() :
-             chat = Chat.objects.filter(reactor = user).first()
-        elif Chat.objects.filter(initiator=user).exists():
-             chat = Chat.objects.filter(initiator = user).first()
-         
+        chat= Chat.objects.filter(initiator = request.user) & Chat.objects.filter(reactor = user) |  Chat.objects.filter(initiator = user) | Chat.objects.filter(reactor = request.user);
+        chat = chat.first() 
+        users = User.objects.filter(id=user.id) | User.objects.filter(id=request.user.id)
+        print(users)
     messages = Message.objects.filter(chat=chat)
-    owner = request.user
-    print(owner)
-    print(user)
-    return JsonResponse({"message":list(messages.values())}) 
+    return JsonResponse({"message":list(messages.values()),"users":list(users.values()),"owner_id":request.user.id}) 
