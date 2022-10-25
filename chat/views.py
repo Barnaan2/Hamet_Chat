@@ -1,5 +1,6 @@
 from django.http import HttpResponse,JsonResponse
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 from . models import Chat,Message
 from account.models import User
 
@@ -10,7 +11,7 @@ def index(request):
     context = {'users' :users}
     return render(request,"chat/index.html",context)
 
-
+@login_required(login_url='login')
 def chat(request):
     chat= Chat.objects.filter(initiator = request.user) | Chat.objects.filter(reactor = request.user)
     q = request.GET.get("q")
@@ -29,6 +30,7 @@ def chat(request):
     context = {'chats': chat}
     return render(request,'chat/your_chat.html',context)
 
+@login_required(login_url='login')
 def message(request,q):
     user = User.objects.get(id=q)
     chat = {}
@@ -45,6 +47,8 @@ def message(request,q):
     context = {'messages':messages,'user':user }
     return render(request,'chat/messages.html',context)  
 
+
+@login_required(login_url='login')
 def ajax(request,q):
     user = User.objects.get(id=q)
     chat = {}
