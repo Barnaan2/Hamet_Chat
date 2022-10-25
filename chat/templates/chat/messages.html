@@ -7,68 +7,65 @@
     <title>messages</title>
 </head>
 <body>
-    {% for message in messages %}
-   <p>{%if request.user == message.sender %} you: {% else%} {{ message.sender }} {%endif%} {{ message.body }} </p>
-   {% endfor %}
-
+   
    <form name="message" id= "{{user.id}}" >
     {% csrf_token %}
     <input type="text"  id= "body" name="body">
     <input type="submit" value="send">
 
    </form>
-
-   <button class="button">  Get value</button>
 </body>
 <script>
    
  
 document.querySelector('form').addEventListener('submit',(e)=>{
     e.preventDefault()
+
     
 let data = {
    csrfmiddlewaretoken: document.querySelector('input').value,
-   body : document.getElementById('body').value,
-}
+   body : document.getElementById('body').value}
+   
+   body : document.getElementById('body').value = "";
 const user = document.querySelector('form').id
-const add = document.createElement('h2')
-const body = document.querySelector('body')
-const value = body.appendChild(add)
 const url = `/message/${user}/`
-value.innerHTML = `${data.csrfmiddlewaretoken}  and ${data.body} and ${url}`
-
-sender(url,data,value)
+sender(url,data)
 
 });
 
-document.querySelector('.button').addEventListener('click',()=>{
-    getter()
-});
+// document.querySelector('.button').addEventListener('click',()=>{
+//     getter()
+// });
+
 
 const getter=() =>{
         const ajax = new XMLHttpRequest()
         ajax.onreadystatechange = reqHandler
         function reqHandler(){
          if(ajax.readyState == XMLHttpRequest.DONE)
-         {
-            if(ajax.status === 200){
-                const messages  = JSON.parse(ajax.responseText);
-           
+         {if(ajax.status === 200){
+                const messages  = JSON.parse(ajax.responseText);  
                 
-messages.message.map((msg)=>{
-if (msg.sender_id == messages.owner_id){
-    console.log("you")
-}
-else{
-   const yourName =  messages.users.map((user)=>{
- if (user.id == msg.sender_id){
-    return(user.username)
- }
-   })
-   console.log(yourName)
-}
+                
+const body = document.querySelector('body')
+const list = document.createElement('ul')
+const ul = body.appendChild(list)
 
+
+// const yourName =  messages.users.map((user)=>{
+//  if (user.id == msg.sender_id){return(user.username)}else{return "you";}});
+const read = document.querySelectorAll('.message')
+if(read){read.forEach((r)=>{
+r.remove()
+})}
+messages.message.map((msg)=>{
 console.log(msg.body)
+ 
+const element = document.createElement('li')
+const li = ul.appendChild(element)
+li.innerHTML = msg.body
+li.className = "message"
+// console.log(msg.body)
 });
             }
          }
@@ -80,27 +77,29 @@ ajax.send()
     } 
 
 
-const sender = (url,data,value) =>{
+
+    setInterval(getter,5000);
+
+
+
+
+
+
+
+const sender = (url,data) =>{
   
  const ajax = new XMLHttpRequest()
  ajax.onreadystatechange =reqHandler
  
  
  function reqHandler(){ 
-    
-    
         if(ajax.readyState === XMLHttpRequest.DONE){
        if(ajax.status === 200){
-     
-     value.innerHTML = ajax.responseText
-     const me  = JSON.parse(ajax.responseText)
-     console.log(me)
-     console.log(typeof(me))
+    //  const me  = JSON.parse(ajax.responseText)
        }}
 
 }
- 
-    ajax.open('POST',url);
+  ajax.open('POST',url);
     ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`);
 

@@ -40,8 +40,7 @@ def message(request,q):
     messages = Message.objects.filter(chat=chat)
     if request.method == "POST":
           Message.objects.create(chat=chat,sender=request.user, receiver=user,body=request.POST.get('body') )
-          name ='{"name":"me"}'
-          return HttpResponse(name) 
+         
   
     context = {'messages':messages,'user':user }
     return render(request,'chat/messages.html',context)  
