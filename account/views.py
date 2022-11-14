@@ -5,7 +5,6 @@ from .forms import OurUserCreationForm,UserForm
 from .models import User
 
 
-
 # ------------------------------------------------------------------------------------------------------|
 #                                                                                   
 #   REGISTRATION AND USER MANAGEMENT
