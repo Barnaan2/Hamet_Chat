@@ -51,20 +51,3 @@ def logout_page(request):
     logout(request)
     return redirect('index')
 
-
-# ------------------------------------------------------------------------------------------------------|
-#                                                                                                      |
-#   PROFILE MANAGMENT this gonna be a little bit confusing then the hotel
-# ------------------------------------------------------------------------------------------------------|
-#  A page for profile
-# @login_required(login_url='login')
-# def profile(request):
-#     if request.method == 'POST':
-#         form = UserForm(request.POST, request.FILES, instance=request.user)
-#         if form.is_valid:
-#             form.save()
-#             return redirect('profile')
-#     return render(request, 'account/userprofile.html')
-
-
-# FOR ADMINS
