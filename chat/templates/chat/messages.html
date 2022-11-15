@@ -1,43 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>messages</title>
-</head>
-<body>
-   
-   <form name="message" id= "{{user.id}}" >
-    {% csrf_token %}
-    <input type="text"  id= "body" name="body">
-    <input type="submit" value="send">
+{% extends 'main.html' %}
+{% block content %}
 
-   </form>
-</body>
+<div class="name">
+    <a href="{{request.META.HTTP_REFERER}}">Go back home</a>
+    <h1 class="chatting-with-user"> </h1>
+</div>
+
+
+<div class="messages">
+    
+   
+      
+    </div>
+
+
+
+    <div class="send">
+        <form class="textmessage" name="message" id= "{{user.id}}">
+            {% csrf_token %}
+            <input type="text" id= "body" name="body">
+            <button type="submit">send</button>
+        </form>
+
+
+    </div>
+
+</div>
 <script>
    
- 
-document.querySelector('form').addEventListener('submit',(e)=>{
-    e.preventDefault()
+
+    document.querySelector('form').addEventListener('submit',(e)=>{
+        e.preventDefault()
+        //  asign data in the page for sending with ajax
+         let data = {
+       csrfmiddlewaretoken: document.querySelector('input').value,
+       body : document.getElementById('body').value
+    }
+    
+       body : document.getElementById('body').value = "";
+    const user = document.querySelector('form').id
+    const url = `/message/${user}/`
+    sender(url,data)
+    
+    });
+
 
     
-let data = {
-   csrfmiddlewaretoken: document.querySelector('input').value,
-   body : document.getElementById('body').value}
-
-   body : document.getElementById('body').value = "";
-const user = document.querySelector('form').id
-const url = `/message/${user}/`
-sender(url,data)
-
-});
-
-// document.querySelector('.button').addEventListener('click',()=>{
-//     getter()
-// });
-
-
 const getter=() =>{
         const ajax = new XMLHttpRequest()
         ajax.onreadystatechange = reqHandler
@@ -47,10 +55,11 @@ const getter=() =>{
                 const messages  = JSON.parse(ajax.responseText);  
                 
                 
-const body = document.querySelector('body')
-const list = document.createElement('ul')
-const ul = body.appendChild(list)
 
+const body = document.querySelector('body')
+const div = document.querySelector('.messages')
+let name = ""
+ 
 
 // const yourName =  messages.users.map((user)=>{
 //  if (user.id == msg.sender_id){return(user.username)}else{return "you";}});
@@ -59,28 +68,30 @@ if(read){read.forEach((r)=>{
 r.remove()
 })}
 messages.message.map((msg)=>{
-    let name = ""
+    
     let className = ""
 if(msg.sender_id == messages.owner_id)
-{
-    name = "you";
-    className = "sender"
+{  
+    className = "sent"
 }
 else{
     messages.users.map((user)=>{
  if(user.id == msg.sender_id)
  {
     name = user.username;
-    className = "reciever"
+   
+    document.querySelector('.chatting-with-user').innerHTML = name;
+    className = "recieved"
  }
     });
 }
- 
-const element = document.createElement('li')
-const li = ul.appendChild(element)
-li.innerHTML = `${name} sent :- ${msg.body}`
-li.className = "message"
-li.classList.add(className);
+ const newMessage = document.createElement('div')
+const addedMessage = div.appendChild(newMessage)
+const element = document.createElement('p')
+const para = addedMessage.appendChild(element)
+para.innerHTML = ` ${msg.body}`
+para.className = "message"
+para.classList.add(className);
 // console.log(msg.body)
 });
             }
@@ -92,9 +103,8 @@ ajax.send()
 
     } 
 
-
-
-    setInterval(getter,2000);
+    
+ setInterval(getter,2000);
 
 getter()
 
@@ -122,4 +132,8 @@ const sender = (url,data) =>{
 }
 
 </script>
-</html>
+
+
+
+
+{% endblock content %}

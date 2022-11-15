@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>messages</title>
+</head>
+<body>
+   
+   <form name="message" id= "{{user.id}}" >
+    {% csrf_token %}
+    <input type="text"  id= "body" name="body">
+    <input type="submit" value="send">
+
+   </form>
+</body>
+<script>
+   
+ 
+document.querySelector('form').addEventListener('submit',(e)=>{
+    e.preventDefault()
+
+    
+let data = {
+   csrfmiddlewaretoken: document.querySelector('input').value,
+   body : document.getElementById('body').value}
+
+   body : document.getElementById('body').value = "";
+const user = document.querySelector('form').id
+const url = `/message/${user}/`
+sender(url,data)
+
+});
+
+// document.querySelector('.button').addEventListener('click',()=>{
+//     getter()
+// });
+
+
+const getter=() =>{
+        const ajax = new XMLHttpRequest()
+        ajax.onreadystatechange = reqHandler
+        function reqHandler(){
+         if(ajax.readyState == XMLHttpRequest.DONE)
+         {if(ajax.status === 200){
+                const messages  = JSON.parse(ajax.responseText);  
+                
+                
+const body = document.querySelector('body')
+const list = document.createElement('ul')
+const ul = body.appendChild(list)
+
+
+// const yourName =  messages.users.map((user)=>{
+//  if (user.id == msg.sender_id){return(user.username)}else{return "you";}});
+const read = document.querySelectorAll('.message')
+if(read){read.forEach((r)=>{
+r.remove()
+})}
+messages.message.map((msg)=>{
+    let name = ""
+    let className = ""
+if(msg.sender_id == messages.owner_id)
+{
+    name = "you";
+    className = "sender"
+}
+else{
+    messages.users.map((user)=>{
+ if(user.id == msg.sender_id)
+ {
+    name = user.username;
+    className = "reciever"
+ }
+    });
+}
+ 
+const element = document.createElement('li')
+const li = ul.appendChild(element)
+li.innerHTML = `${name} sent :- ${msg.body}`
+li.className = "message"
+li.classList.add(className);
+// console.log(msg.body)
+});
+            }
+         }
+        }
+
+ajax.open('GET','ajax/')
+ajax.send()
+
+    } 
+
+
+
+    setInterval(getter,2000);
+
+getter()
+
+
+
+
+
+const sender = (url,data) =>{
+  
+ const ajax = new XMLHttpRequest()
+ ajax.onreadystatechange =reqHandler
+ 
+ 
+ function reqHandler(){ 
+        if(ajax.readyState === XMLHttpRequest.DONE){
+       if(ajax.status === 200){
+    //  const me  = JSON.parse(ajax.responseText)
+       }}
+
+}
+  ajax.open('POST',url);
+    ajax.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    ajax.send(`csrfmiddlewaretoken=${data.csrfmiddlewaretoken}&body=${data.body}`);
+
+}
+
+</script>
+</html>

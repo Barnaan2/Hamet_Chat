@@ -16,12 +16,11 @@ def register(request,role="customer"):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('index')
+            return redirect('chat')
         else:
             context = {'form': form}
             return render(request, 'account/register.html', context)
     context = {"form":form}
-    print(form)
     return render(request, 'account/register.html', context)
 
 
@@ -40,7 +39,7 @@ def login_page(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('index')
+            return redirect('chat')
         else:
             messages.error(request, 'No matching user  is Found ')
             return redirect('login')

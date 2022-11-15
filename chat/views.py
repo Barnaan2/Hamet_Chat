@@ -13,6 +13,7 @@ def index(request):
 
 @login_required(login_url='login')
 def chat(request):
+    users = User.objects.all()
     chat= Chat.objects.filter(initiator = request.user) | Chat.objects.filter(reactor = request.user)
     q = request.GET.get("q")
     if q != None:
@@ -27,7 +28,7 @@ def chat(request):
         else:
           Chat.objects.create(initiator = request.user, reactor =user)
           return redirect('message' ,user.id)
-    context = {'chats': chat}
+    context = {'chats': chat,'users':users}
     return render(request,'chat/your_chat.html',context)
 
 @login_required(login_url='login')

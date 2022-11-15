@@ -1,99 +1,51 @@
 {% extends 'main.html'%}
+{% load static %}
 {% block content %}
 
 <header class="chats-header">
+    <a href="{% url 'logout' %}">Logout</a>
     <h4>Chats</h4>
 </header>
 <section class="chats">
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Bernaan
-            </h4>
-            <p class="latest-message">
-                Hello friend can we meet today or what
-            </p>
-        </div>
+    
+{% for chat in chats %}
+<div class="chat">
+    <img src="{% static 'images.jpg'%}" alt="user profile">
+    <div class="user_info">
+        
+        <h4 class="user-name">
+            {% if chat.reactor == request.user %}
+            <a href="?q={{chat.initiator.id}}">{{ chat.initiator }}</a>
+{% elif chat.initiator == request.user %}
+<a href="?q={{ chat.reactor.id}}">{{  chat.reactor }}</a>
+
+ {% endif %}
+        </h4>
+        <p class="latest-message">
+            Hello friend can we meet today or what
+        </p>
     </div>
-
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Abel
-            </h4>
-            <p class="latest-message">
-                Hey is every thing okay there.
-            </p>
-        </div>
-
-    </div>
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Amani
-            </h4>
-            <p class="latest-message">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae!
-            </p>
-        </div>
-    </div>
-
-
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Batii
-            </h4>
-            <p class="latest-message">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum, doloremque ratione.
-            </p>
-        </div>
-    </div>
-
-
+</div>
+{% endfor %}
     <div class="start-chat">
         <h4>Start a new Chat</h4>
     </div>
+{% for user in users %}
+{% if user == request.user %}
 
+{% else %}
     <div class="chat">
-        <img src="images.jpg" alt="user profile">
+        <img src="{% static 'images.jpg'%}" alt="user profile">
         <div class="user_info">
+           <a href="?q={{user.id}}">
             <h4 class="user-name">
-                Humanaan
+             {{user.username }}   
             </h4>
-
+        </a>
         </div>
     </div>
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                BUBU
-            </h4>
-        </div>
-    </div>
-
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Nardii
-            </h4>
-
-        </div>
-    </div>
-    <div class="chat">
-        <img src="images.jpg" alt="user profile">
-        <div class="user_info">
-            <h4 class="user-name">
-                Fayyo
-            </h4>
-
-        </div>
+    {% endif %}
+{% endfor %}
     </div>
 </section>
 
