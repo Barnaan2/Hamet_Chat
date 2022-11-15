@@ -1,16 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>register here </title>
-</head>
-<body>
-  <form action="" method="POST">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Register">
-</form>
-</body>
-</html>
+{% extends 'main.html'%}
+{% block content %}
+<header class="appname">
+    <h1> Ha </h1>
+</header>
+<section class="reg-container">
+    <form class="reg-form" action="" method="POST">
+        {% csrf_token %}
+        {% for item in form %}
+        {{item.label_tag}}
+<input type = "{% if item.name != 'username'  %}password{% endif %}"  name={{item.name}} placeholder={{item.label}}>
+        {% endfor %}
+        <input type="submit" value="register">
+    </form>
+    <a href="{% url 'login' %}" class="register-link">login</a>
+</section>
+{% endblock content %}

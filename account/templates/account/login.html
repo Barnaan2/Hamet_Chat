@@ -1,14 +1,16 @@
-{% include 'main.html' %}
+{% extends 'main.html' %}
 {% block content %}
-    <title>login</title>
-  <form action=" " method = "POST">
-{% csrf_token %}
-<input type="text" placeholder=" user name" name="username">
-<input type="password" name="password">
-<input type="submit" value="login">
+<header class="appname">
+    <h1> Ha </h1>
+</header>
+<section class="login-container">
+    <form action='' method="POST" class="login-form">
+        {% csrf_token %}
+        <input type="text" name="username" placeholder="User Name">
+        <input type="password" placeholder="password" name="password">
+        <input type="submit" value="login">
+    </form>
 
-<p> do not have account yet ? <a href="{% url 'register' %}"> register here </a></p>
-
-  </form>  
- 
-  {% endblock content %}
+    <a href="{% url 'register' %}" class="register-link">register</a>
+</section>
+{% endblock content %}

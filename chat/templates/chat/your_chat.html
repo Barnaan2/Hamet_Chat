@@ -1,22 +1,104 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>your chats</title>
-</head>
-<body>
-    <h3> hello </h3>
-    <H1> {{ request.user.username }}, Welcome to Talk to Me</H1>
-    {% for chat in chats %}
+{% extends 'main.html'%}
+{% block content %}
 
-  {% if chat.initiator == request.user %}
-   <p> user  {{chat.reactor.username }} </p>
-   {% elif chat.reactor == request.user %}
-   <p> user {{chat.reactor.username }} </p>
-   {% endif %}
+<header class="chats-header">
+    <h4>Chats</h4>
+</header>
+<section class="chats">
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Bernaan
+            </h4>
+            <p class="latest-message">
+                Hello friend can we meet today or what
+            </p>
+        </div>
+    </div>
 
-    {% endfor %}
-</body>
-</html>
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Abel
+            </h4>
+            <p class="latest-message">
+                Hey is every thing okay there.
+            </p>
+        </div>
+
+    </div>
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Amani
+            </h4>
+            <p class="latest-message">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Nihil, vitae!
+            </p>
+        </div>
+    </div>
+
+
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Batii
+            </h4>
+            <p class="latest-message">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ipsum, doloremque ratione.
+            </p>
+        </div>
+    </div>
+
+
+    <div class="start-chat">
+        <h4>Start a new Chat</h4>
+    </div>
+
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Humanaan
+            </h4>
+
+        </div>
+    </div>
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                BUBU
+            </h4>
+        </div>
+    </div>
+
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Nardii
+            </h4>
+
+        </div>
+    </div>
+    <div class="chat">
+        <img src="images.jpg" alt="user profile">
+        <div class="user_info">
+            <h4 class="user-name">
+                Fayyo
+            </h4>
+
+        </div>
+    </div>
+</section>
+
+
+
+
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talk to Me</title>
+</head>
+<body>
+  {% if request.user.is_authenticated %}
+<a href="{% url 'logout' %}"> Logout</a>
+  {% else %}
+  <a href="{% url 'login' %}"> login</a>
+  <a href="{% url 'register' %}"> register</a>
+
+  {% endif %}
+  <h2> Hello this is TalkToMe  chatting platform </h2>
+
+<h3> just login or create account and talk privately with the following users</h3>
+<ul>
+{% for user in users %}
+<a href="chat/?q={{user.id}}"> <li>{{user.username}}</li> </a>
+
+{% endfor %}
+</ul>
+    
+</body>
+</html>

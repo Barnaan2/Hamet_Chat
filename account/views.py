@@ -21,13 +21,14 @@ def register(request,role="customer"):
             context = {'form': form}
             return render(request, 'account/register.html', context)
     context = {"form":form}
+    print(form)
     return render(request, 'account/register.html', context)
 
 
 
 def login_page(request):
     if request.user.is_authenticated:
-         return redirect('index')
+         return redirect('chat')
     if request.method == "POST":
         username = request.POST.get('username')
         password = request.POST.get('password')

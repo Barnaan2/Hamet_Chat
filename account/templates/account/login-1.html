@@ -1,0 +1,14 @@
+{% include 'main.html' %}
+{% block content %}
+    <title>login</title>
+  <form action=" " method = "POST">
+{% csrf_token %}
+<input type="text" placeholder=" user name" name="username">
+<input type="password" name="password">
+<input type="submit" value="login">
+
+<p> do not have account yet ? <a href="{% url 'register' %}"> register here </a></p>
+
+  </form>  
+ 
+  {% endblock content %}
