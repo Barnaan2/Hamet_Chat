@@ -35,14 +35,12 @@ def login_page(request):
             user = User.objects.get(username = username)
         except:
             messages.error(request, 'user does not exist')
-            return redirect('login')
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             return redirect('chat')
         else:
-            messages.error(request, 'No matching user  is Found ')
-            return redirect('login')
+            messages.error(request, 'your password is not correct')
     return render(request, 'account/login.html')
 
 
