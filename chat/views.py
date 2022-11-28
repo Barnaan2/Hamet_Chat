@@ -5,7 +5,7 @@ from . models import Chat,Message
 from account.models import User
 
 
-# Create your views here.
+
 def index(request):
     users = User.objects.all()
     context = {'users' :users}
