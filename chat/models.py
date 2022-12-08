@@ -3,14 +3,14 @@ from account.models import User
 
 class Chat(models.Model):
     initiator = models.ForeignKey(User,on_delete = models.CASCADE)
-    reactor = models.ForeignKey(User,on_delete = models.CASCADE,related_name="reactoe")
+    reactor = models.ForeignKey(User,on_delete = models.CASCADE,related_name="reactoe",null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:
         ordering = ('-created_at', '-updated_at')
 
     def __str__(self):
-        return self.initiator.username
+        return str(self.initiator.username)
 
 class Message(models.Model):
    chat = models.ForeignKey(Chat,on_delete = models.CASCADE)
