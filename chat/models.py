@@ -3,7 +3,7 @@ from account.models import User
 
 class Chat(models.Model):
     initiator = models.ForeignKey(User,on_delete = models.CASCADE)
-    reactor = models.ForeignKey(User,on_delete = models.CASCADE,related_name="reactoe",null=True,blank=True)
+    reactor = models.ForeignKey(User,on_delete = models.CASCADE,related_name="reactor",null=True,blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     class Meta:

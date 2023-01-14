@@ -1,8 +1,11 @@
 {% extends 'main.html' %}
 {% block content %}
 
+<div class ="back-button"> 
+    <a href="{{request.META.HTTP_REFERER}}"> &#8592; Home</a>
+</div>
 <div class="name">
-    <a href="{{request.META.HTTP_REFERER}}">Go back home</a>
+
     <h1 class="chatting-with-user"> </h1>
 </div>
 
@@ -29,6 +32,10 @@
 <script>
    
 
+    if(document.querySelector('.chatting-with-user').innerHTML){
+    document.querySelector('.chatting-with-user').innerHTML =  "";
+   }
+
     document.querySelector('form').addEventListener('submit',(e)=>{
         e.preventDefault()
         //  asign data in the page for sending with ajax
@@ -53,6 +60,8 @@ const getter=() =>{
          if(ajax.readyState == XMLHttpRequest.DONE)
          {if(ajax.status === 200){
                 const messages  = JSON.parse(ajax.responseText);  
+                console.log("hello")
+                console.log(messages);
                 
                 
 
@@ -80,6 +89,7 @@ else{
  {
     name = user.username;
    
+  
     document.querySelector('.chatting-with-user').innerHTML = name;
     className = "recieved"
  }
